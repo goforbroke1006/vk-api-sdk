@@ -1,5 +1,11 @@
 package vk_api_sdk
 
+import (
+	"errors"
+	"strconv"
+	"strings"
+)
+
 type Sex uint8
 
 const (
@@ -106,12 +112,36 @@ type UsersGetResponse struct {
 }
 
 type User struct {
-	ID        int64  `json:"id"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Sex       Sex    `json:"sex"`
-	BDate     string `json:"bdate"`
+	ID        int64     `json:"id"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	Sex       Sex       `json:"sex"`
+	BDate     BirthDate `json:"bdate"`
 	//
 	Status   string   `json:"status"`
 	Relation Relation `json:"relation"`
+}
+
+type BirthDate string
+
+func (bd BirthDate) Day() (int64, error) {
+	parts := strings.Split(string(bd), ".")
+	day, err := strconv.ParseInt(parts[0], 10, 64)
+	return day, err
+}
+func (bd BirthDate) Month() (int64, error) {
+	parts := strings.Split(string(bd), ".")
+	if len(parts) < 2 {
+		return 0, errors.New("month is not specified")
+	}
+	day, err := strconv.ParseInt(parts[1], 10, 64)
+	return day, err
+}
+func (bd BirthDate) Year() (int64, error) {
+	parts := strings.Split(string(bd), ".")
+	if len(parts) < 3 {
+		return 0, errors.New("year is not specified")
+	}
+	year, err := strconv.ParseInt(parts[2], 10, 64)
+	return year, err
 }
