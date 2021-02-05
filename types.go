@@ -106,11 +106,11 @@ type UsersGetResponse struct {
 }
 
 type User struct {
-	ID        int64 `json:"id"`
-	FirstName int64 `json:"first_name"`
-	LastName  int64 `json:"last_name"`
-	Sex       Sex   `json:"sex"`
-	BDate     int64 `json:"bdate"`
+	ID        int64  `json:"id"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Sex       Sex    `json:"sex"`
+	BDate     string `json:"bdate"`
 	//
 	Status   string   `json:"status"`
 	Relation Relation `json:"relation"`
