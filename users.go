@@ -24,14 +24,12 @@ func (c *vkApiClient) UsersGet(userIDs []interface{}, fields []string, nameCase 
 		return nil, errors.New("unexpected ID type, want string or int")
 	}
 
-	fieldsParam := strings.Join(fields, ",")
-
 	response, err := http.Get(fmt.Sprintf("%s/%s?%s&access_token=%s&v=%s",
 		baseApiUrl,
 		"users.get",
 		fmt.Sprintf("user_ids=%s&fields=%s&name_case=%s",
-			userIDsList,
-			fieldsParam,
+			strings.Join(userIDsList, ","),
+			strings.Join(fields, ","),
 			nameCase,
 		),
 		c.accessToken,
