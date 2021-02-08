@@ -1,4 +1,4 @@
-package vk_api_sdk
+package vksdk
 
 import (
 	"encoding/json"
@@ -24,22 +24,27 @@ func (c *vkApiClient) UsersGet(userIDs []interface{}, fields []string, nameCase 
 		return nil, errors.New("unexpected ID type, want string or int")
 	}
 
-	response, err := http.Get(fmt.Sprintf("%s/%s?%s&access_token=%s&v=%s",
-		baseApiUrl,
-		"users.get",
-		fmt.Sprintf("user_ids=%s&fields=%s&name_case=%s",
-			strings.Join(userIDsList, ","),
-			strings.Join(fields, ","),
-			nameCase,
-		),
-		c.accessToken,
-		currentVersion,
-	))
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/%s", baseApiUrl, "users.get"), nil)
 	if err != nil {
 		return nil, err
 	}
 
-	bytes, err := ioutil.ReadAll(response.Body)
+	q := req.URL.Query()
+	q.Add("user_ids", strings.Join(userIDsList, ","))
+	q.Add("fields", strings.Join(fields, ","))
+	q.Add("name_case", string(nameCase))
+
+	q.Add("access_token", c.accessToken)
+	q.Add("v", currentVersion)
+
+	req.URL.RawQuery = q.Encode()
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

@@ -1,4 +1,4 @@
-package vk_api_sdk
+package vksdk
 
 import "testing"
 

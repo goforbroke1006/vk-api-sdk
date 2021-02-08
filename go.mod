@@ -1,3 +1,3 @@
-module github.com/goforbroke1006/vk-api-sdk
+module github.com/goforbroke1006/vksdk
 
 go 1.15
