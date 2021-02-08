@@ -145,3 +145,54 @@ func (bd BirthDate) Year() (int64, error) {
 	year, err := strconv.ParseInt(parts[2], 10, 64)
 	return year, err
 }
+
+type ResponseError struct {
+	Code          int    `json:"error_code"`
+	Message       string `json:"error_msg"`
+	RequestParams []struct {
+		Key   string `json:"key"`
+		Value string `json:"value"`
+	} `json:"request_params"`
+}
+
+type PhotosGetAlbumsResponse struct {
+	Response struct {
+		Count uint64  `json:"count"`
+		Items []Album `json:"items"`
+	}
+	Error *ResponseError `json:"error"`
+}
+
+type Album struct {
+	ID          int64  `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+}
+
+const (
+	SystemAlbumOnThePage   = -6
+	SystemAlbumOnTheWall   = -7
+	SystemAlbumSavedPhotos = -15
+)
+
+type PhotosGetResponse struct {
+	Response struct {
+		Count uint64  `json:"count"`
+		Items []Photo `json:"items"`
+	}
+	Error *ResponseError `json:"error"`
+}
+
+type Photo struct {
+	ID      int64  `json:"id"`
+	AlbumID int64  `json:"album_id"`
+	Title   string `json:"title"`
+	Text    string `json:"text"`
+	Date    int64  `json:"date"`
+	Sizes   []struct {
+		Width  int    `json:"width"`
+		Height int    `json:"height"`
+		Url    string `json:"url"`
+		Type   string `json:"type"`
+	} `json:"sizes"`
+}

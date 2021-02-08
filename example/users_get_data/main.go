@@ -22,7 +22,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%v\n", response)
 
 	for _, userData := range response.Response {
 		fmt.Println("Name   : ", userData.FirstName, userData.LastName)
