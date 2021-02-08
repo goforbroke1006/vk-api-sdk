@@ -170,9 +170,9 @@ type Album struct {
 }
 
 const (
-	SystemAlbumOnThePage   = -6
-	SystemAlbumOnTheWall   = -7
-	SystemAlbumSavedPhotos = -15
+	PhotosSystemAlbumOnThePage   = -6
+	PhotosSystemAlbumOnTheWall   = -7
+	PhotosSystemAlbumSavedPhotos = -15
 )
 
 type PhotosGetResponse struct {
@@ -196,3 +196,80 @@ type Photo struct {
 		Type   string `json:"type"`
 	} `json:"sizes"`
 }
+
+type VideoGetResponse struct {
+	Response struct {
+		Count uint64  `json:"count"`
+		Items []Video `json:"items"`
+	}
+	Error *ResponseError `json:"error"`
+}
+
+type Video struct {
+	ID          int64          `json:"id"`
+	Title       string         `json:"title"`
+	OwnerID     int64          `json:"owner_id"`
+	Width       int            `json:"width"`
+	Height      int            `json:"height"`
+	Comments    uint64         `json:"comments"`
+	AddingDate  int64          `json:"adding_date"`
+	Date        int64          `json:"date"`
+	Description string         `json:"description"`
+	Duration    uint64         `json:"duration"`
+	Views       uint64         `json:"views"`
+	Image       []VideoPreview `json:"image"`
+	Player      string         `json:"player"`
+	Files       struct {
+		MP4Quality240 string `json:"mp4_240"`
+		MP4Quality360 string `json:"mp4_360"`
+		MP4Quality480 string `json:"mp4_480"`
+		MP4Quality720 string `json:"mp4_720"`
+	} `json:"files"`
+	Likes struct {
+		Count     uint64 `json:"count"`
+		UserLikes uint64 `json:"user_likes"`
+	} `json:"likes"`
+	Reposts struct {
+		Count        uint64 `json:"count"`
+		UserReposted uint64 `json:"user_reposted"`
+	} `json:"reposts"`
+}
+
+type VideoPreview struct {
+	Width       int    `json:"width"`
+	Height      int    `json:"height"`
+	Url         string `json:"url"`
+	WithPadding int    `json:"with_padding"`
+}
+
+type VideoFileQuality string
+
+const (
+	VideoFileQuality240 = VideoFileQuality("mp4_240")
+	VideoFileQuality360 = VideoFileQuality("mp4_360")
+	VideoFileQuality480 = VideoFileQuality("mp4_480")
+	VideoFileQuality720 = VideoFileQuality("mp4_720")
+)
+
+type VideoGetAlbumsResponse struct {
+	Response struct {
+		Count uint64       `json:"count"`
+		Items []VideoAlbum `json:"items"`
+	}
+	Error *ResponseError `json:"error"`
+}
+
+type VideoAlbum struct {
+	ID          int64  `json:"id"`
+	OwnerID     int64  `json:"owner_id"`
+	Title       string `json:"title"`
+	Count       uint   `json:"count"`
+	Photo320    string `json:"photo_320"`
+	Photo160    string `json:"photo_160"`
+	UpdatedTime int64  `json:"updated_time"`
+}
+
+const (
+	VideoSystemAlbumUploaded = -1
+	VideoSystemAlbumAdded    = -2
+)

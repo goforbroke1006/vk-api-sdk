@@ -27,7 +27,7 @@ func main() {
 		}
 
 		for _, albumData := range response.Response.Items {
-			//if albumData.ID != vksdk.SystemAlbumSavedPhotos {
+			//if albumData.ID != vksdk.PhotosSystemAlbumSavedPhotos {
 			//	continue
 			//}
 
